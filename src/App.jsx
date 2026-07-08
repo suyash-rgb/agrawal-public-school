@@ -291,6 +291,12 @@ function App() {
     setExportProgress(0);
     setExportText('Preparing render engine...');
     
+    // Temporarily force scale wrapper to 100% scale (none) so html2canvas renders exact dimensions
+    const scaleWrapper = document.querySelector('.print-sheet-scale-wrapper');
+    if (scaleWrapper) {
+      scaleWrapper.style.transform = 'none';
+    }
+    
     try {
       const doc = new jsPDF({
         orientation: 'landscape',
@@ -342,6 +348,11 @@ function App() {
       console.error("PDF Export failed:", error);
       alert("An error occurred during PDF generation.");
     } finally {
+      // Restore scale transform
+      const scaleWrapper = document.querySelector('.print-sheet-scale-wrapper');
+      if (scaleWrapper) {
+        scaleWrapper.style.transform = `scale(${sheetZoom / 100})`;
+      }
       setIsExporting(false);
     }
   };

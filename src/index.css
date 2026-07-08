@@ -907,15 +907,15 @@ input, button, textarea {
 /* 10-Card grid container inside A4 Landscape page */
 .id-cards-grid {
   position: absolute;
-  top: 19mm;
-  left: 13.5mm;
-  width: 270mm;
-  height: 172mm;
+  top: 18mm;
+  left: 9.5mm;
+  width: 278mm;
+  height: 174mm;
   display: grid;
   grid-template-columns: repeat(5, 54mm);
   grid-template-rows: repeat(2, 86mm);
-  gap: 0;
-  background-color: #f3f4f6; /* Subtle cutting guideline helper backgrounds */
+  gap: 2mm; /* Small gap between cards */
+  background-color: transparent;
 }
 
 /* Individual ID Card representation (54mm x 86mm Portrait) */
