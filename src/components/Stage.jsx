@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import IDCard from './IDCard';
 import PrintSheet from './PrintSheet';
+import PhotoModal from './PhotoModal';
 
-export default function Stage({ students, activeStudentId, viewMode, setViewMode, sheetZoom, setSheetZoom, printSheetRef, setActiveStudentId }) {
+export default function Stage({ students, activeStudentId, viewMode, setViewMode, sheetZoom, setSheetZoom, printSheetRef, setActiveStudentId, updateStudent }) {
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const activeStudent = students.find(s => s.id === activeStudentId);
   const activeIndex = students.findIndex(s => s.id === activeStudentId);
 
@@ -41,7 +43,10 @@ export default function Stage({ students, activeStudentId, viewMode, setViewMode
             <div className="single-card-wrapper">
               {activeStudent ? (
                 <div style={{transform: 'scale(1.15)', transformOrigin: 'center'}}>
-                  <IDCard student={activeStudent} />
+                  <IDCard 
+                    student={activeStudent} 
+                    onPhotoClick={() => setIsPhotoModalOpen(true)} 
+                  />
                 </div>
               ) : (
                 <div className="empty-list-state" style={{backgroundColor: 'var(--bg-secondary)', borderRadius: '12px', width: '300px', height: '200px'}}>
@@ -66,11 +71,22 @@ export default function Stage({ students, activeStudentId, viewMode, setViewMode
         ) : (
           <div className="print-sheet-view-mode active">
             <div className="print-sheet-scale-wrapper" style={{transform: `scale(${sheetZoom / 100})`, transformOrigin: 'center top'}}>
-              <PrintSheet students={students} ref={printSheetRef} onSelectStudent={setActiveStudentId} />
+              <PrintSheet 
+                students={students.filter(s => selectedIds.includes(s.id))} 
+                ref={printSheetRef} 
+                onSelectStudent={setActiveStudentId} 
+              />
             </div>
           </div>
         )}
       </div>
+
+      <PhotoModal 
+        isOpen={isPhotoModalOpen}
+        onClose={() => setIsPhotoModalOpen(false)}
+        student={activeStudent}
+        onSave={updateStudent}
+      />
     </section>
   );
 }

@@ -125,8 +125,9 @@ const DEMO_STUDENTS = [
 function App() {
   const [students, setStudents] = useState([]);
   const [activeStudentId, setActiveStudentId] = useState(null);
+  const [selectedIds, setSelectedIds] = useState([]);
   const [viewMode, setViewMode] = useState('single');
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
   const [sheetZoom, setSheetZoom] = useState(70);
   
   const [isExporting, setIsExporting] = useState(false);
@@ -139,6 +140,7 @@ function App() {
     document.body.className = theme === 'dark' ? 'dark-theme' : 'light-theme';
   }, [theme]);
 
+  // Load state on mount
   useEffect(() => {
     try {
       const stored = localStorage.getItem('aps_id_generator_students');
@@ -146,6 +148,14 @@ function App() {
         const parsed = JSON.parse(stored);
         if (parsed.length > 0) {
           setStudents(parsed);
+          
+          const storedSelected = localStorage.getItem('aps_id_generator_selected_ids');
+          if (storedSelected) {
+            setSelectedIds(JSON.parse(storedSelected));
+          } else {
+            setSelectedIds(parsed.map(s => s.id));
+          }
+
           const storedActive = localStorage.getItem('aps_id_generator_active_id');
           if (storedActive && parsed.some(s => s.id === storedActive)) {
             setActiveStudentId(storedActive);
@@ -161,18 +171,21 @@ function App() {
     }
   }, []);
 
+  // Save state on changes
   useEffect(() => {
     if (students.length > 0) {
       localStorage.setItem('aps_id_generator_students', JSON.stringify(students));
+      localStorage.setItem('aps_id_generator_selected_ids', JSON.stringify(selectedIds));
       if (activeStudentId) {
         localStorage.setItem('aps_id_generator_active_id', activeStudentId);
       }
     }
-  }, [students, activeStudentId]);
+  }, [students, activeStudentId, selectedIds]);
 
   const loadDemoData = () => {
     const freshDemo = JSON.parse(JSON.stringify(DEMO_STUDENTS));
     setStudents(freshDemo);
+    setSelectedIds(freshDemo.map(s => s.id));
     setActiveStudentId(freshDemo[0].id);
   };
 
@@ -194,6 +207,7 @@ function App() {
       photoZoom: 100, photoX: 0, photoY: 0
     };
     setStudents([...students, newStudent]);
+    setSelectedIds([...selectedIds, newId]);
     setActiveStudentId(newId);
   };
 
@@ -213,6 +227,7 @@ function App() {
     newStudents.splice(idx + 1, 0, duplicate);
     
     setStudents(newStudents);
+    setSelectedIds([...selectedIds, duplicate.id]);
     setActiveStudentId(duplicate.id);
   };
 
@@ -227,6 +242,7 @@ function App() {
       const idx = students.findIndex(s => s.id === targetId);
       const newStudents = students.filter(s => s.id !== targetId);
       setStudents(newStudents);
+      setSelectedIds(prev => prev.filter(x => x !== targetId));
       
       if (activeStudentId === targetId) {
         if (newStudents.length > 0) {
@@ -242,13 +258,31 @@ function App() {
   const clearAllStudents = () => {
     if (confirm("Are you sure you want to clear all student records? This action cannot be undone.")) {
       setStudents([]);
+      setSelectedIds([]);
       setActiveStudentId(null);
+      localStorage.removeItem('aps_id_generator_students');
+      localStorage.removeItem('aps_id_generator_selected_ids');
+    }
+  };
+
+  const toggleSelectStudent = (id) => {
+    setSelectedIds(prev =>
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.length === students.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(students.map(s => s.id));
     }
   };
 
   const exportPDF = async () => {
-    if (students.length === 0) {
-      alert("No student records available to export.");
+    const selectedStudents = students.filter(s => selectedIds.includes(s.id));
+    if (selectedStudents.length === 0) {
+      alert("No student cards are selected for export.");
       return;
     }
     
@@ -366,6 +400,9 @@ function App() {
           students={students} 
           activeStudentId={activeStudentId} 
           setActiveStudentId={setActiveStudentId}
+          selectedIds={selectedIds}
+          toggleSelectStudent={toggleSelectStudent}
+          toggleSelectAll={toggleSelectAll}
           onAdd={addStudent}
           onDuplicate={duplicateStudent}
           onDelete={deleteStudent}
@@ -377,11 +414,13 @@ function App() {
           students={students}
           activeStudentId={activeStudentId}
           setActiveStudentId={setActiveStudentId}
+          selectedIds={selectedIds}
           viewMode={viewMode}
           setViewMode={setViewMode}
           sheetZoom={sheetZoom}
           setSheetZoom={setSheetZoom}
           printSheetRef={printSheetRef}
+          updateStudent={updateStudent}
         />
       </main>
       

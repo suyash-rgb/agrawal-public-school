@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const DEFAULT_AVATAR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none"><rect width="100" height="120" fill="#f8fafc"/><circle cx="50" cy="45" r="20" fill="#cbd5e1"/><path d="M 15 110 C 15 82, 85 82, 85 110 Z" fill="#cbd5e1"/><path d="M 50 16 L 80 26 L 50 36 L 20 26 Z" fill="#475569"/><rect x="48" y="26" width="4" height="12" fill="#475569"/><path d="M 77 28 L 77 44 C 77 46, 80 46, 80 44 L 80 28 Z" fill="#f59e0b"/></svg>`;
 const DEFAULT_AVATAR_URL = `data:image/svg+xml;utf8,${encodeURIComponent(DEFAULT_AVATAR_SVG)}`;
 
-export default function Sidebar({ students, activeStudentId, setActiveStudentId, onAdd, onDuplicate, onDelete, updateStudent, loadDemoData }) {
+export default function Sidebar({ students, activeStudentId, setActiveStudentId, selectedIds, toggleSelectStudent, toggleSelectAll, onAdd, onDuplicate, onDelete, updateStudent, loadDemoData }) {
   const [activeTab, setActiveTab] = useState('list');
   const [search, setSearch] = useState('');
 
@@ -66,6 +66,22 @@ export default function Sidebar({ students, activeStudentId, setActiveStudentId,
           <input type="text" placeholder="Search by name or scholar no..." value={search} onChange={e => setSearch(e.target.value)} />
         </div>
         
+        {students.length > 0 && (
+          <div className="select-all-banner">
+            <label className="checkbox-container">
+              <input 
+                type="checkbox" 
+                checked={selectedIds.length === students.length && students.length > 0} 
+                onChange={toggleSelectAll} 
+              />
+              <span className="select-all-label">
+                {selectedIds.length === students.length ? 'Deselect All' : 'Select All for Printing'} 
+                <span className="selected-count">({selectedIds.length} of {students.length} checked)</span>
+              </span>
+            </label>
+          </div>
+        )}
+
         <div className="students-list">
           {students.length === 0 ? (
             <div className="empty-list-state">
@@ -80,7 +96,18 @@ export default function Sidebar({ students, activeStudentId, setActiveStudentId,
             </div>
           ) : (
             filtered.map(student => (
-              <div key={student.id} className={`student-list-item ${student.id === activeStudentId ? 'selected' : ''}`} onClick={() => setActiveStudentId(student.id)}>
+              <div 
+                key={student.id} 
+                className={`student-list-item ${student.id === activeStudentId ? 'selected' : ''}`} 
+                onClick={() => setActiveStudentId(student.id)}
+              >
+                <div className="item-checkbox-wrapper" onClick={e => e.stopPropagation()}>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedIds.includes(student.id)} 
+                    onChange={() => toggleSelectStudent(student.id)} 
+                  />
+                </div>
                 <div className="item-thumb-wrapper">
                   <img src={student.photo || DEFAULT_AVATAR_URL} alt="thumb" style={{ objectFit: 'cover' }} />
                 </div>
@@ -155,19 +182,9 @@ export default function Sidebar({ students, activeStudentId, setActiveStudentId,
                       <img src={activeStudent.photo} alt="Thumbnail" />
                       <button type="button" className="btn-clear-photo" onClick={() => updateStudent(activeStudent.id, { photo: '' })}><i className="fa-solid fa-xmark"></i></button>
                     </div>
-                    <div className="slider-controls">
-                      <div className="slider-control-row">
-                        <span className="slider-label">Zoom</span>
-                        <input type="range" min="10" max="300" value={activeStudent.photoZoom || 100} onChange={e => updateStudent(activeStudent.id, { photoZoom: parseInt(e.target.value) })} />
-                      </div>
-                      <div className="slider-control-row">
-                        <span className="slider-label">Shift X</span>
-                        <input type="range" min="-100" max="100" value={activeStudent.photoX || 0} onChange={e => updateStudent(activeStudent.id, { photoX: parseInt(e.target.value) })} />
-                      </div>
-                      <div className="slider-control-row">
-                        <span className="slider-label">Shift Y</span>
-                        <input type="range" min="-100" max="100" value={activeStudent.photoY || 0} onChange={e => updateStudent(activeStudent.id, { photoY: parseInt(e.target.value) })} />
-                      </div>
+                    <div className="photo-edit-hint">
+                      <span className="hint-title"><i className="fa-solid fa-crop-simple"></i> Photo Uploaded</span>
+                      <span className="hint-desc">Click directly on the photo inside the <strong>Card Preview</strong> on the stage to adjust zoom and panning.</span>
                     </div>
                   </div>
                 )}

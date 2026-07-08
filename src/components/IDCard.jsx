@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function IDCard({ student, isThumbnail = false }) {
+export default function IDCard({ student, isThumbnail = false, onPhotoClick }) {
   if (!student) return null;
 
   const photoTransform = isThumbnail
@@ -18,7 +18,7 @@ export default function IDCard({ student, isThumbnail = false }) {
         
         <div className="card-header-sec">
           <div className="logo-box">
-            <img src="/assets/school_logo.svg" alt="Logo" className="logo-img" />
+            <img src="/assets/school_logo.png" alt="Logo" className="logo-img" />
           </div>
           <div className="header-text-box">
             <h2 className="school-name">AGRAWAL</h2>
@@ -30,10 +30,22 @@ export default function IDCard({ student, isThumbnail = false }) {
         
         <div className="card-background-watermark"></div>
         
-        <div className="student-photo-block">
+        <div 
+          className="student-photo-block" 
+          onClick={onPhotoClick} 
+          style={onPhotoClick ? { cursor: 'pointer' } : undefined}
+        >
           <div className="photo-frame-inner">
             {student.photo ? (
-              <img src={student.photo} alt="Student" className="img-render-photo" style={photoTransform} />
+              <>
+                <img src={student.photo} alt="Student" className="img-render-photo" style={photoTransform} />
+                {onPhotoClick && (
+                  <div className="photo-edit-overlay">
+                    <i className="fa-solid fa-arrows-up-down-left-right"></i>
+                    <span>Adjust</span>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="photo-placeholder-graphic">
                 <i className="fa-solid fa-user-graduate"></i>

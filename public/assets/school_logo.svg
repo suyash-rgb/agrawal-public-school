@@ -1,66 +1,84 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
   <defs>
-    <!-- Top arc: from left to right -->
-    <path id="top-arc" d="M 15 50 A 35 35 0 0 1 85 50" fill="none" />
-    <!-- Bottom arc: from right to left -->
-    <path id="bottom-arc" d="M 85 50 A 35 35 0 0 1 15 50" fill="none" />
+    <!-- Top arc for AGRAWAL PUBLIC SCHOOL -->
+    <!-- Center is 50,50, radius is 38. Path goes from left to right -->
+    <path id="top-arc" d="M 12 50 A 38 38 0 0 1 88 50" fill="none" />
+    
+    <!-- Bottom arc for DHAR (M.P.) -->
+    <path id="bottom-arc-text" d="M 88 50 A 38 38 0 0 1 12 50" fill="none" />
   </defs>
 
-  <!-- Background outer white circle -->
-  <circle cx="50" cy="50" r="48" fill="#ffffff" />
+  <!-- Outer gold/yellow thin ring -->
+  <circle cx="50" cy="50" r="48" fill="none" stroke="#d4af37" stroke-width="1.5" />
   
-  <!-- Outer red ring -->
-  <circle cx="50" cy="50" r="47" fill="none" stroke="#A81C24" stroke-width="1.5" />
+  <!-- Main red ring -->
+  <circle cx="50" cy="50" r="46.5" fill="#a81c24" />
   
-  <!-- Outer red band border (thick band) -->
-  <circle cx="50" cy="50" r="41.5" fill="none" stroke="#A81C24" stroke-width="7" />
+  <!-- Inner gold/yellow thin ring -->
+  <circle cx="50" cy="50" r="30" fill="none" stroke="#d4af37" stroke-width="1.5" />
   
-  <!-- Inner white ring separator -->
-  <circle cx="50" cy="50" r="37.5" fill="none" stroke="#ffffff" stroke-width="0.8" />
+  <!-- Inner white circle -->
+  <circle cx="50" cy="50" r="28.5" fill="#ffffff" />
   
-  <!-- Text elements using path -->
-  <text font-family="'Montserrat', 'Outfit', 'Inter', Arial, sans-serif" font-weight="900" font-size="5" fill="#ffffff" letter-spacing="0.4">
-    <textPath href="#top-arc" startOffset="50%" text-anchor="middle">
-      AGRAWAL PUBLIC SCHOOL
-    </textPath>
+  <!-- Lotus Flower (Pink with dark outline) -->
+  <g stroke="#701a75" stroke-width="0.75">
+    <!-- Back outer petals -->
+    <path d="M 50 65 C 20 65, 15 45, 20 38 C 25 50, 40 50, 50 65 Z" fill="#fce7f3" />
+    <path d="M 50 65 C 80 65, 85 45, 80 38 C 75 50, 60 50, 50 65 Z" fill="#fce7f3" />
+    <!-- Left inner petal -->
+    <path d="M 50 65 C 30 60, 25 40, 28 30 C 35 45, 45 45, 50 65 Z" fill="#fbcfe8" />
+    <!-- Right inner petal -->
+    <path d="M 50 65 C 70 60, 75 40, 72 30 C 65 45, 55 45, 50 65 Z" fill="#fbcfe8" />
+    <!-- Center petal -->
+    <path d="M 50 20 C 62 35, 60 55, 50 65 C 40 55, 38 35, 50 20 Z" fill="#f9a8d4" />
+  </g>
+  
+  <!-- Open Book (White with dark outline) -->
+  <g stroke="#333" stroke-width="0.75" fill="#ffffff">
+    <!-- Left page -->
+    <path d="M 50 60 C 40 64, 25 60, 25 50 L 25 40 C 28 50, 40 54, 50 50 Z" />
+    <!-- Right page -->
+    <path d="M 50 60 C 60 64, 75 60, 75 50 L 75 40 C 72 50, 60 54, 50 50 Z" />
+    <!-- Center line -->
+    <line x1="50" y1="40" x2="50" y2="60" />
+    <!-- Page text lines left -->
+    <line x1="30" y1="45" x2="45" y2="47" stroke-width="0.4" />
+    <line x1="30" y1="48" x2="45" y2="50" stroke-width="0.4" />
+    <!-- Page text lines right -->
+    <line x1="70" y1="45" x2="55" y2="47" stroke-width="0.4" />
+    <line x1="70" y1="48" x2="55" y2="50" stroke-width="0.4" />
+  </g>
+  
+  <!-- Oil Lamp (Diya) on Stand -->
+  <g>
+    <!-- Stand base -->
+    <path d="M 42 75 L 58 75 L 54 70 L 46 70 Z" fill="#d4af37" stroke="#b45309" stroke-width="0.5" />
+    <!-- Stand stem -->
+    <rect x="49" y="58" width="2" height="12" fill="#d4af37" stroke="#b45309" stroke-width="0.5" />
+    <circle cx="50" cy="65" r="2" fill="#d4af37" stroke="#b45309" stroke-width="0.5" />
+    <!-- Lamp bowl -->
+    <path d="M 38 58 C 38 65, 62 65, 62 58 Z" fill="#fcd34d" stroke="#b45309" stroke-width="0.5" />
+    <!-- Flame -->
+    <path d="M 50 58 C 53 54, 53 48, 50 42 C 47 48, 47 54, 50 58 Z" fill="#f97316" />
+    <path d="M 50 56 C 51.5 53, 51.5 49, 50 45 C 48.5 49, 48.5 53, 50 56 Z" fill="#fef08a" />
+  </g>
+  
+  <!-- Outer Text: AGRAWAL PUBLIC SCHOOL -->
+  <text font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="900" fill="#ffffff" letter-spacing="0.5">
+    <textPath href="#top-arc" startOffset="50%" text-anchor="middle">AGRAWAL PUBLIC SCHOOL</textPath>
   </text>
   
-  <text font-family="'Montserrat', 'Outfit', 'Inter', Arial, sans-serif" font-weight="900" font-size="5" fill="#ffffff" letter-spacing="0.4">
-    <textPath href="#bottom-arc" startOffset="50%" text-anchor="middle">
-      • DHAR (M.P.) •
-    </textPath>
+  <!-- Outer Text: DHAR (M.P.) -->
+  <text font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="900" fill="#ffffff" letter-spacing="1">
+    <textPath href="#bottom-arc-text" startOffset="50%" text-anchor="middle">DHAR (M.P.)</textPath>
   </text>
-
-  <!-- Inner border ring -->
-  <circle cx="50" cy="50" r="37.5" fill="none" stroke="#A81C24" stroke-width="1" />
   
-  <!-- Central design white field -->
-  <circle cx="50" cy="50" r="36" fill="#ffffff" />
+  <!-- Three dots separators -->
+  <circle cx="12" cy="50" r="1.5" fill="#ffffff" />
+  <circle cx="15.5" cy="46" r="1.5" fill="#ffffff" />
+  <circle cx="15.5" cy="54" r="1.5" fill="#ffffff" />
   
-  <!-- Inner red thin circle -->
-  <circle cx="50" cy="50" r="33.5" fill="none" stroke="#A81C24" stroke-width="0.5" stroke-dasharray="1 1" />
-  
-  <!-- Lotus petals -->
-  <!-- Central petal -->
-  <path d="M 50 30 C 45 40 43 52 50 62 C 57 52 55 40 50 30 Z" fill="#ECA9D1" stroke="#A81C24" stroke-width="0.6" />
-  
-  <!-- Middle petals left and right -->
-  <path d="M 50 40 C 37 41 34 53 44 60 C 47 54 48 47 50 40 Z" fill="#E58EB9" stroke="#A81C24" stroke-width="0.6" />
-  <path d="M 50 40 C 63 41 66 53 56 60 C 53 54 52 47 50 40 Z" fill="#E58EB9" stroke="#A81C24" stroke-width="0.6" />
-  
-  <!-- Front petals left and right -->
-  <path d="M 45 46 C 29 48 30 58 40 60 C 43 55 44 51 45 46 Z" fill="#DD72AA" stroke="#A81C24" stroke-width="0.6" />
-  <path d="M 55 46 C 71 48 70 58 60 60 C 57 55 56 51 55 46 Z" fill="#DD72AA" stroke="#A81C24" stroke-width="0.6" />
-  
-  <!-- Diya lamp stand -->
-  <path d="M 44 63 Q 50 62 56 63 Q 53 69 50 69 Q 47 69 44 63 Z" fill="#E8B244" stroke="#A81C24" stroke-width="0.5" />
-  
-  <!-- Diya main bowl -->
-  <path d="M 40 57 C 40 64 60 64 60 57 C 60 54 54 53 50 53 C 46 53 40 54 40 57 Z" fill="#F9D04F" stroke="#A81C24" stroke-width="0.6" />
-  
-  <!-- Diya flame stand and flame -->
-  <!-- Outer flame -->
-  <path d="M 50 53 C 47 48 50 39 50 39 C 50 39 53 48 50 53 Z" fill="#FF5E2B" />
-  <!-- Inner flame -->
-  <path d="M 50 53 C 48.5 50 50 44 50 44 C 50 44 51.5 50 50 53 Z" fill="#FFEB4D" />
+  <circle cx="88" cy="50" r="1.5" fill="#ffffff" />
+  <circle cx="84.5" cy="46" r="1.5" fill="#ffffff" />
+  <circle cx="84.5" cy="54" r="1.5" fill="#ffffff" />
 </svg>
