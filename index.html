@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agrawal Public School - ID Card Generator</title>
+  <!-- SEO Metadata -->
+  <meta name="description" content="Generate, manage, and export high-fidelity student ID cards for Agrawal Public School Dhar in standard A4 landscape sheets containing 10 cards.">
+  <meta name="author" content="Antigravity Coding Assistant">
+  
+  <!-- Typography and Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Libraries (html2canvas and jsPDF) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="dark-theme">
+  <!-- Main Editor Shell -->
+  <div class="app-container">
+    
+    <!-- Top Toolbar (Word Ribbon Style) -->
+    <header class="app-header">
+      <div class="header-logo">
+        <div class="logo-circle">
+          <i class="fa-solid fa-address-card"></i>
+        </div>
+        <div class="header-title-group">
+          <h1>Agrawal Public School</h1>
+          <span>ID Card Generator Suite</span>
+        </div>
+      </div>
+      
+      <!-- Toolbar Controls -->
+      <div class="toolbar-controls">
+        <div class="control-group">
+          <button id="btn-add-student" class="btn btn-primary" title="Add New Student Card">
+            <i class="fa-solid fa-plus"></i> <span>Add Card</span>
+          </button>
+          <button id="btn-duplicate-student" class="btn btn-secondary" title="Duplicate Selected Student">
+            <i class="fa-solid fa-copy"></i> <span>Duplicate</span>
+          </button>
+          <button id="btn-delete-student" class="btn btn-danger" title="Delete Selected Student">
+            <i class="fa-solid fa-trash-can"></i> <span>Delete</span>
+          </button>
+        </div>
+        
+        <div class="control-divider"></div>
+        
+        <div class="control-group">
+          <button id="btn-load-demo" class="btn btn-accent" title="Load Mock Data">
+            <i class="fa-solid fa-database"></i> <span>Load Demo Data</span>
+          </button>
+          <button id="btn-clear-all" class="btn btn-warning" title="Clear All Cards">
+            <i class="fa-solid fa-eraser"></i> <span>Clear All</span>
+          </button>
+        </div>
+        
+        <div class="control-divider"></div>
+        
+        <div class="control-group">
+          <button id="btn-export-pdf" class="btn btn-success btn-large" title="Export PDF sheet (10 cards per page)">
+            <i class="fa-solid fa-file-pdf"></i> <strong>Export PDF</strong>
+          </button>
+        </div>
+        
+        <div class="control-divider"></div>
+        
+        <div class="theme-toggle-container">
+          <button id="btn-theme-toggle" class="btn btn-icon" title="Toggle Light/Dark Mode">
+            <i class="fa-solid fa-sun"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Main workspace content -->
+    <main class="workspace-main">
+      
+      <!-- Left Panel: Sidebar Manager -->
+      <aside class="sidebar-panel">
+        
+        <!-- Tab Headers -->
+        <div class="sidebar-tabs">
+          <button class="tab-btn active" data-tab="students-list-tab">
+            <i class="fa-solid fa-users"></i> Records (<span id="record-count">0</span>)
+          </button>
+          <button class="tab-btn" data-tab="edit-card-tab" id="tab-edit-trigger">
+            <i class="fa-solid fa-pen-to-square"></i> Card Editor
+          </button>
+        </div>
+        
+        <!-- Tab Content: Student Database List -->
+        <div class="tab-content active" id="students-list-tab">
+          <div class="search-bar-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="student-search" placeholder="Search by name or scholar no...">
+          </div>
+          
+          <div class="students-list" id="students-list">
+            <!-- List items dynamically generated -->
+            <div class="empty-list-state">
+              <i class="fa-solid fa-users-viewfinder"></i>
+              <p>No student records added yet.</p>
+              <button id="btn-quick-demo" class="btn btn-secondary btn-sm">Load Sample Records</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tab Content: Editor Form -->
+        <div class="tab-content" id="edit-card-tab">
+          <div class="editor-no-selected" id="editor-empty-state">
+            <i class="fa-solid fa-arrow-left"></i>
+            <p>Select a student card from the <strong>Records</strong> tab or click <strong>Add Card</strong> to begin editing details.</p>
+          </div>
+          
+          <div class="editor-container hidden" id="editor-active-form">
+            <h3 class="editor-section-title">Edit Student Details</h3>
+            <form id="student-form" onsubmit="event.preventDefault();">
+              <div class="form-group">
+                <label for="student-name">Full Name</label>
+                <input type="text" id="student-name" placeholder="e.g. SOURABH KUSHWAHA" autocomplete="off" required>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="student-class">Class</label>
+                  <input type="text" id="student-class" placeholder="e.g. NURSERY" autocomplete="off" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="scholar-no">Scholar No</label>
+                  <input type="text" id="scholar-no" placeholder="e.g. Simption101" autocomplete="off" required>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="father-name">Father's Name</label>
+                <input type="text" id="father-name" placeholder="e.g. RAJESH KUSHWAHA" autocomplete="off" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="contact-no">Contact Numbers (Comma separated)</label>
+                <input type="text" id="contact-no" placeholder="e.g. 9074822542, 9340188163" autocomplete="off" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="address">Address</label>
+                <textarea id="address" rows="2" placeholder="e.g. B-32- IT PARK, BHOPAL" required></textarea>
+              </div>
+              
+              <div class="form-group">
+                <label>Student Photo</label>
+                
+                <!-- Upload Dropzone -->
+                <div class="photo-upload-zone" id="photo-upload-zone">
+                  <input type="file" id="photo-input" accept="image/*" class="file-hidden">
+                  <div class="upload-icon-container">
+                    <i class="fa-solid fa-camera"></i>
+                  </div>
+                  <div class="upload-text">
+                    <span class="upload-primary">Click to upload photo</span>
+                    <span class="upload-secondary">or drag and drop here</span>
+                  </div>
+                </div>
+                
+                <!-- Image Adjustments Slider Panel -->
+                <div class="photo-adjustments-panel hidden" id="photo-adjustments">
+                  <div class="photo-preview-thumbnail">
+                    <img id="crop-thumbnail-img" src="" alt="Thumbnail">
+                    <button type="button" class="btn-clear-photo" id="btn-remove-photo" title="Remove Photo">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+                  <div class="slider-controls">
+                    <div class="slider-control-row">
+                      <span class="slider-label"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom</span>
+                      <input type="range" id="slider-zoom" min="10" max="300" value="100">
+                      <span class="slider-val" id="val-zoom">100%</span>
+                    </div>
+                    <div class="slider-control-row">
+                      <span class="slider-label"><i class="fa-solid fa-arrows-left-right"></i> Shift X</span>
+                      <input type="range" id="slider-x" min="-100" max="100" value="0">
+                      <span class="slider-val" id="val-x">0px</span>
+                    </div>
+                    <div class="slider-control-row">
+                      <span class="slider-label"><i class="fa-solid fa-arrows-up-down"></i> Shift Y</span>
+                      <input type="range" id="slider-y" min="-100" max="100" value="0">
+                      <span class="slider-val" id="val-y">0px</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </aside>
+      
+      <!-- Right Panel: Stage workspace preview -->
+      <section class="stage-panel">
+        <!-- Stage Headers / Navigation -->
+        <div class="stage-tabs">
+          <div class="view-toggle-btns">
+            <button class="view-btn active" id="view-single-card" title="Edit current card in large detail view">
+              <i class="fa-solid fa-id-card"></i> <span>Card Preview</span>
+            </button>
+            <button class="view-btn" id="view-print-sheet" title="Preview A4 Sheet layout (10 cards)">
+              <i class="fa-solid fa-file-invoice"></i> <span>Print Sheet Layout</span>
+            </button>
+          </div>
+          
+          <div class="sheet-zoom-control hidden" id="sheet-zoom-control-bar">
+            <span><i class="fa-solid fa-magnifying-glass-chart"></i> Zoom:</span>
+            <input type="range" id="sheet-zoom-slider" min="30" max="100" value="70">
+            <span id="sheet-zoom-val">70%</span>
+          </div>
+        </div>
+        
+        <!-- Stage Stage-Body -->
+        <div class="stage-body" id="stage-body">
+          
+          <!-- Single Card View Mode -->
+          <div class="single-card-view-mode active" id="single-card-viewport">
+            <div class="single-card-wrapper" id="single-card-container">
+              <!-- Dynamically populated card -->
+            </div>
+            
+            <div class="helper-navigation">
+              <button id="btn-prev-card" class="btn btn-secondary btn-icon-round" title="Previous Card">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <span class="page-indicator-text">Card <strong id="current-card-num">0</strong> of <strong id="total-card-num">0</strong></span>
+              <button id="btn-next-card" class="btn btn-secondary btn-icon-round" title="Next Card">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Print Sheet Grid View Mode -->
+          <div class="print-sheet-view-mode" id="print-sheet-viewport">
+            <div class="print-sheet-scale-wrapper" id="print-sheet-scale-wrapper">
+              <div class="print-sheet-pages-container" id="print-sheet-pages-container">
+                <!-- A4 Sheets will be dynamically rendered here -->
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+      
+    </main>
+  </div>
+  
+  <!-- Hidden Card Template Source for JS cloning -->
+  <div style="display: none;">
+    <div class="id-card-template-source" id="card-template-html">
+      <div class="id-card-inner">
+        <!-- Curved accent top-left background styling -->
+        <div class="card-decor-top-left-red"></div>
+        <div class="card-decor-top-left-blue"></div>
+        
+        <!-- Header Section -->
+        <div class="card-header-sec">
+          <div class="logo-box">
+            <!-- Inline svg or loaded SVG -->
+            <img src="assets/school_logo.svg" alt="Logo" class="logo-img">
+          </div>
+          <div class="header-text-box">
+            <h2 class="school-name">AGRAWAL</h2>
+            <h3 class="school-subtitle-dhar">PUBLIC SCHOOL, DHAR</h3>
+            <div class="title-underline"></div>
+            <p class="school-address-text">145 PRAKASH NAGAR DHAR MP</p>
+          </div>
+        </div>
+        
+        <!-- Grayscale Watermark Background of Building -->
+        <div class="card-background-watermark"></div>
+        
+        <!-- Student Photo Outer -->
+        <div class="student-photo-block">
+          <div class="photo-frame-inner">
+            <img src="" alt="Student Photo" class="img-render-photo hidden">
+            <div class="photo-placeholder-graphic">
+              <i class="fa-solid fa-user-graduate"></i>
+              <span>NO PHOTO</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Student Name Ribbon Banner -->
+        <div class="student-name-ribbon">
+          <div class="diagonal-accent left-accent"></div>
+          <div class="diagonal-accent right-accent"></div>
+          <div class="student-name-display">STUDENT NAME</div>
+        </div>
+        
+        <!-- Details Box -->
+        <div class="student-details-grid">
+          <div class="decor-red-pill-right"></div>
+          
+          <div class="detail-item">
+            <div class="item-label">Class</div>
+            <div class="item-colon">:</div>
+            <div class="item-val field-class-val">CLASS PLACEHOLDER</div>
+          </div>
+          
+          <div class="detail-item">
+            <div class="item-label">Scholar No</div>
+            <div class="item-colon">:</div>
+            <div class="item-val field-scholar-val">SCHOLAR PLACEHOLDER</div>
+          </div>
+          
+          <div class="detail-item">
+            <div class="item-label">Father's Name</div>
+            <div class="item-colon">:</div>
+            <div class="item-val field-father-val">FATHER PLACEHOLDER</div>
+          </div>
+          
+          <div class="detail-item">
+            <div class="item-label">Contact No</div>
+            <div class="item-colon">:</div>
+            <div class="item-val field-contact-val">CONTACT PLACEHOLDER</div>
+          </div>
+          
+          <div class="detail-item">
+            <div class="item-label">Address</div>
+            <div class="item-colon">:</div>
+            <div class="item-val field-address-val">ADDRESS PLACEHOLDER</div>
+          </div>
+        </div>
+        
+        <!-- Card Footer -->
+        <div class="card-footer-sec">
+          <div class="footer-bottom-accent-red"></div>
+          <div class="footer-bottom-accent-blue"></div>
+          <div class="footer-contact-details">
+            <i class="fa-solid fa-phone-flip"></i>
+            <span>CONTACT: 9425334818, 9826032643</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Export overlay modal (busy loading spinner) -->
+  <div class="export-spinner-overlay hidden" id="export-spinner">
+    <div class="spinner-card">
+      <div class="loader-circle"></div>
+      <h3>Generating PDF Pages</h3>
+      <p>Rendering student ID card sheets. Please wait...</p>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="export-progress" style="width: 0%;"></div>
+      </div>
+      <span id="export-progress-text">Page 1 of 1 (0%)</span>
+    </div>
+  </div>
+  
+  <!-- App Core JS Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

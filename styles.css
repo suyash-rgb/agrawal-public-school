@@ -1,0 +1,1527 @@
+/* ==========================================================================
+   AGRAWAL PUBLIC SCHOOL - ID CARD GENERATOR
+   Core Stylesheet & Premium Theme Layout
+   ========================================================================== */
+
+/* --- Theme Color Palettes --- */
+:root {
+  /* Dark Theme (Default) */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-inverse: #0f172a;
+  
+  /* Brand Accent Colors */
+  --accent-color: #38bdf8; /* Cyan blue for dashboard */
+  --accent-hover: #0ea5e9;
+  --success-color: #10b981;
+  --success-hover: #059669;
+  --danger-color: #ef4444;
+  --danger-hover: #dc2626;
+  --warning-color: #f59e0b;
+  --warning-hover: #d97706;
+  
+  /* School ID Card Specific Colors (Standardized) */
+  --card-school-red: #A81C24;
+  --card-school-blue: #0B2C5C;
+  --card-bg-white: #FFFFFF;
+  --card-text-dark: #1A1A1A;
+  
+  /* Shadows and Transitions */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  
+  /* Sidebar width */
+  --sidebar-width: 420px;
+}
+
+/* Light Theme overrides */
+body.light-theme {
+  --bg-primary: #f1f5f9;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e2e8f0;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.15);
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* --- Core Resets & Base Styles --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', 'Outfit', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.5;
+  overflow: hidden;
+  height: 100vh;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+input, button, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* --- Scrollbar Customization --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* --- Layout Container --- */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* --- Top Header (Word-like Toolbar Ribbon) --- */
+.app-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-circle {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--card-school-red), var(--card-school-blue));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  box-shadow: 0 4px 10px rgba(168, 28, 36, 0.3);
+}
+
+.header-title-group h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.header-title-group span {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Toolbar Control Ribbon */
+.toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.control-divider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--border-color);
+  margin: 0 6px;
+}
+
+/* Buttons System */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 550;
+  font-size: 13.5px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast) ease-in-out;
+  user-select: none;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 11.5px;
+}
+
+.btn-large {
+  padding: 10px 18px;
+  font-size: 14.5px;
+}
+
+.btn-primary {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-main);
+  border-color: var(--border-color);
+}
+.btn-secondary:hover {
+  background-color: var(--text-muted);
+  color: var(--bg-primary);
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  color: #fff;
+}
+.btn-success:hover {
+  background-color: var(--success-hover);
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: #fff;
+}
+.btn-danger:hover {
+  background-color: var(--danger-hover);
+}
+
+.btn-warning {
+  background-color: var(--warning-color);
+  color: #fff;
+}
+.btn-warning:hover {
+  background-color: var(--warning-hover);
+}
+
+.btn-accent {
+  background-color: transparent;
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+.btn-accent:hover {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: var(--bg-tertiary);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+.btn-icon:hover {
+  background-color: var(--text-muted);
+  color: var(--bg-primary);
+}
+
+.btn-icon-round {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+}
+
+/* --- Main Workspace Layout --- */
+.workspace-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* --- Left Sidebar Panel --- */
+.sidebar-panel {
+  width: var(--sidebar-width);
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+/* Tabs */
+.sidebar-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.tab-btn:hover {
+  color: var(--text-main);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.tab-btn.active {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+  background-color: var(--bg-secondary);
+}
+
+/* Tab Content Areas */
+.tab-content {
+  display: none;
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  position: relative;
+}
+
+.tab-content.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Records List Tab */
+.search-bar-container {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.search-bar-container i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.search-bar-container input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-main);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.search-bar-container input:focus {
+  border-color: var(--accent-color);
+}
+
+.students-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Student Record List Item */
+.student-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+  user-select: none;
+  position: relative;
+}
+
+.student-list-item:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.student-list-item.selected {
+  border-color: var(--accent-color);
+  background-color: rgba(56, 189, 248, 0.05);
+}
+
+.item-thumb-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.item-thumb-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-thumb-wrapper i {
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+.item-meta {
+  flex: 1;
+  min-width: 0; /* Ensures text truncation works */
+}
+
+.item-meta h4 {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-meta p {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.btn-action-small {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: none;
+  background-color: var(--bg-tertiary);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all var(--transition-fast);
+}
+
+.btn-action-small:hover {
+  background-color: var(--text-muted);
+  color: var(--bg-primary);
+}
+
+.btn-action-small.btn-delete-item:hover {
+  background-color: var(--danger-color);
+  color: #fff;
+}
+
+/* Empty State */
+.empty-list-state, .editor-no-selected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  flex: 1;
+  color: var(--text-muted);
+}
+
+.empty-list-state i, .editor-no-selected i {
+  font-size: 40px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.empty-list-state p, .editor-no-selected p {
+  font-size: 13px;
+  margin-bottom: 16px;
+  max-width: 240px;
+}
+
+/* Form Styles */
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.editor-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 8px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 9px 12px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-main);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+  border-color: var(--accent-color);
+}
+
+/* Upload Dropzone styling */
+.photo-upload-zone {
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.08);
+  transition: all var(--transition-fast) ease;
+  position: relative;
+}
+
+.photo-upload-zone:hover {
+  border-color: var(--accent-color);
+  background-color: rgba(56, 189, 248, 0.02);
+}
+
+.file-hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-icon-container {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: var(--bg-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.upload-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.upload-primary {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.upload-secondary {
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+/* Photo Adjustments Panel */
+.photo-adjustments-panel {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.photo-preview-thumbnail {
+  width: 58px;
+  height: 74px;
+  border-radius: 4px;
+  border: 1.5px solid var(--card-school-blue);
+  overflow: hidden;
+  background-color: var(--bg-secondary);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.photo-preview-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.btn-clear-photo {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: var(--danger-color);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 9px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.slider-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.slider-control-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.slider-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 55px;
+  font-weight: 500;
+}
+
+.slider-control-row input[type="range"] {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-tertiary);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  accent-color: var(--accent-color);
+}
+
+.slider-val {
+  font-size: 10.5px;
+  color: var(--text-main);
+  width: 32px;
+  text-align: right;
+  font-weight: 600;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* --- Right Stage Panel --- */
+.stage-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+  overflow: hidden;
+  transition: background-color var(--transition-normal);
+}
+
+/* Stage Headers navigation */
+.stage-tabs {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 8px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+.view-toggle-btns {
+  display: flex;
+  background-color: var(--bg-primary);
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.view-btn {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-btn.active {
+  color: var(--text-main);
+  background-color: var(--bg-tertiary);
+  box-shadow: var(--shadow-sm);
+}
+
+.sheet-zoom-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.sheet-zoom-control input[type="range"] {
+  width: 120px;
+  height: 4px;
+  accent-color: var(--accent-color);
+  background: var(--bg-tertiary);
+  cursor: pointer;
+}
+
+#sheet-zoom-val {
+  font-weight: 600;
+  color: var(--text-main);
+  width: 32px;
+}
+
+/* Stage Body workspace */
+.stage-body {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+/* --- Single Card Mode Viewport --- */
+.single-card-view-mode {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  height: 100%;
+  width: 100%;
+}
+
+.single-card-view-mode.active {
+  display: flex;
+}
+
+.single-card-wrapper {
+  background: transparent;
+  padding: 10px;
+  /* Scale wrapper for detail view: standard pixel size of card scaled up for easy viewing */
+}
+
+.single-card-wrapper .id-card {
+  box-shadow: var(--shadow-card);
+  transform: scale(1.15);
+  transform-origin: center;
+}
+
+.helper-navigation {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 6px 16px;
+  border-radius: 30px;
+  box-shadow: var(--shadow-md);
+  margin-top: 15px;
+}
+
+.page-indicator-text {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.page-indicator-text strong {
+  color: var(--text-main);
+}
+
+/* --- Print Sheet Mode Viewport --- */
+.print-sheet-view-mode {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.print-sheet-view-mode.active {
+  display: block;
+}
+
+.print-sheet-scale-wrapper {
+  transform-origin: center top;
+  width: 100%;
+  height: 100%;
+}
+
+.print-sheet-pages-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding-bottom: 50px;
+}
+
+/* ==========================================================================
+   ID CARD GRAPHICS SYSTEM (54mm x 86mm Card Dimension)
+   Everything styled relative to millimeter coordinates for standard printing.
+   ========================================================================== */
+
+/* Page representation (A4 Landscape) */
+.a4-landscape-page {
+  background-color: #ffffff;
+  color: #000000;
+  width: 297mm;
+  height: 210mm;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  overflow: hidden;
+  page-break-after: always;
+  flex-shrink: 0;
+}
+
+/* Print page page labels (only on screen) */
+.a4-page-shadow-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-number-banner {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background-color: var(--bg-secondary);
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border-color);
+}
+
+/* 10-Card grid container inside A4 Landscape page */
+.id-cards-grid {
+  position: absolute;
+  top: 19mm;
+  left: 13.5mm;
+  width: 270mm;
+  height: 172mm;
+  display: grid;
+  grid-template-columns: repeat(5, 54mm);
+  grid-template-rows: repeat(2, 86mm);
+  gap: 0;
+  background-color: #f3f4f6; /* Subtle cutting guideline helper backgrounds */
+}
+
+/* Individual ID Card representation (54mm x 86mm Portrait) */
+.id-card {
+  width: 54mm;
+  height: 86mm;
+  background-color: var(--card-bg-white);
+  border: 0.15mm solid rgba(0, 0, 0, 0.12); /* Extremely light cutting border */
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.id-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Top corner curved stripe ornaments */
+.card-decor-top-left-blue {
+  position: absolute;
+  top: -16mm;
+  left: -16mm;
+  width: 32mm;
+  height: 32mm;
+  background-color: var(--card-school-blue);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.card-decor-top-left-red {
+  position: absolute;
+  top: -15.2mm;
+  left: -15.2mm;
+  width: 32mm;
+  height: 32mm;
+  background-color: var(--card-school-red);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* Cut back the red curve on the bottom side so only a thin red band is visible */
+.card-decor-top-left-red::after {
+  content: '';
+  position: absolute;
+  top: 0.8mm;
+  left: 0.8mm;
+  width: 32mm;
+  height: 32mm;
+  background-color: var(--card-bg-white);
+  border-radius: 50%;
+  z-index: 3;
+}
+
+/* Header layout (contains school logo and title texts) */
+.card-header-sec {
+  height: 22.5mm;
+  display: flex;
+  padding: 1.5mm 1.5mm 0.8mm 1.5mm;
+  position: relative;
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+.logo-box {
+  width: 12.5mm;
+  height: 12.5mm;
+  z-index: 6;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1mm;
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.header-text-box {
+  flex: 1;
+  text-align: center;
+  padding-left: 0.5mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.school-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 4.3mm;
+  color: var(--card-school-red);
+  line-height: 4.3mm;
+  margin-top: 0.6mm;
+  letter-spacing: 0.2mm;
+}
+
+.school-subtitle-dhar {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 2.3mm;
+  color: var(--card-school-blue);
+  line-height: 2.6mm;
+  letter-spacing: -0.05mm;
+}
+
+.title-underline {
+  width: 90%;
+  height: 0.3mm;
+  background-color: var(--card-school-red);
+  margin: 0.5mm 0;
+}
+
+.school-address-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.45mm;
+  color: var(--card-school-blue);
+  line-height: 1.8mm;
+  letter-spacing: 0.05mm;
+}
+
+/* Grayscale Watermark of Building */
+.card-background-watermark {
+  position: absolute;
+  top: 22.5mm;
+  bottom: 6mm;
+  left: 0;
+  right: 0;
+  background-image: url('assets/school_building_watermark.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.09;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Student Photo frame layout */
+.student-photo-block {
+  height: 25mm;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+.photo-frame-inner {
+  width: 19.5mm;
+  height: 24.5mm;
+  border: 0.6mm solid var(--card-school-blue);
+  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.15);
+  background-color: #f8fafc;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-render-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  transform-origin: center;
+  /* Transform values applied inline via state zoom/offsets */
+}
+
+.photo-placeholder-graphic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e1;
+  gap: 1mm;
+}
+
+.photo-placeholder-graphic i {
+  font-size: 6mm;
+}
+
+.photo-placeholder-graphic span {
+  font-size: 1.5mm;
+  font-weight: 700;
+  letter-spacing: 0.1mm;
+}
+
+/* Student Name Banner Ribbon */
+.student-name-ribbon {
+  height: 4.8mm;
+  background-color: var(--card-school-blue);
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0.5mm 1.5mm 0.8mm 1.5mm;
+  border-radius: 0.3mm;
+}
+
+.student-name-display {
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 2.85mm;
+  text-align: center;
+  width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.1mm;
+}
+
+/* Diagonal stripes on ribbon ends */
+.diagonal-accent {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1.6mm;
+  z-index: 6;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--card-school-red),
+    var(--card-school-red) 0.35mm,
+    #ffffff 0.35mm,
+    #ffffff 0.7mm,
+    var(--card-school-blue) 0.7mm,
+    var(--card-school-blue) 1.05mm
+  );
+}
+
+.left-accent {
+  left: 0.5mm;
+}
+
+.right-accent {
+  right: 0.5mm;
+}
+
+/* Details Box Container */
+.student-details-grid {
+  flex: 1;
+  margin: 0 1.5mm 1.5mm 1.5mm;
+  border: 0.35mm solid var(--card-school-blue);
+  border-radius: 1.2mm;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1.5mm 1.5mm 0.8mm 1.5mm;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  box-sizing: border-box;
+}
+
+.decor-red-pill-right {
+  position: absolute;
+  right: 0.6mm;
+  top: 2.5mm;
+  bottom: 2.5mm;
+  width: 1.05mm;
+  background-color: var(--card-school-red);
+  border-radius: 0.6mm;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  line-height: 2.75mm;
+  margin-bottom: 0.4mm;
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.item-label {
+  width: 14mm;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 2.1mm;
+  color: var(--card-school-red);
+  text-transform: capitalize;
+}
+
+.item-colon {
+  width: 2.5mm;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 2.1mm;
+  color: var(--card-school-blue);
+  text-align: center;
+}
+
+.item-val {
+  flex: 1;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 2.1mm;
+  color: var(--card-school-blue);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+
+/* Expand contact and address to wrap slightly if necessary, but keep single-line look */
+.field-contact-val, .field-address-val {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  line-clamp: 1;
+  font-size: 1.95mm;
+}
+
+/* Card Footer (Static school contact numbers) */
+.card-footer-sec {
+  height: 6mm;
+  background-color: var(--card-school-blue);
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Top curved border decoration inside footer */
+.footer-bottom-accent-red {
+  position: absolute;
+  top: -1.2mm;
+  left: 0;
+  width: 100%;
+  height: 1.8mm;
+  background-color: var(--card-school-red);
+  border-radius: 50% / 100% 100% 0 0;
+  z-index: 1;
+}
+
+.footer-bottom-accent-blue {
+  position: absolute;
+  top: -0.6mm;
+  left: 0;
+  width: 100%;
+  height: 1.8mm;
+  background-color: var(--card-school-blue);
+  border-radius: 50% / 100% 100% 0 0;
+  z-index: 2;
+}
+
+.footer-contact-details {
+  position: relative;
+  z-index: 3;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.85mm;
+  display: flex;
+  align-items: center;
+  gap: 0.8mm;
+}
+
+.footer-contact-details i {
+  font-size: 1.8mm;
+}
+
+/* --- Empty Card Slot helper (inside print grid sheet) --- */
+.id-card.empty-card-slot {
+  background-color: var(--bg-secondary);
+  border: 1px dashed var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-slot-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.empty-slot-label i {
+  font-size: 20px;
+  opacity: 0.4;
+}
+
+/* --- Export Spinner Busy Modal --- */
+.export-spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.spinner-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 30px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loader-circle {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--accent-color);
+  border-radius: 50%;
+  animation: spinner 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+.spinner-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.spinner-card p {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 6px;
+  background-color: var(--bg-primary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-color), var(--success-color));
+  width: 0%;
+  border-radius: 3px;
+  transition: width 0.15s ease-out;
+}
+
+#export-progress-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+@keyframes spinner {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .app-container {
+    height: auto;
+    overflow-y: auto;
+  }
+  
+  .app-header {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  
+  .toolbar-controls {
+    width: 100%;
+    justify-content: space-between;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  
+  .workspace-main {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+  
+  .sidebar-panel {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .tab-content {
+    max-height: 400px;
+  }
+  
+  .stage-panel {
+    width: 100%;
+    min-height: 500px;
+    height: auto;
+  }
+  
+  .stage-body {
+    padding: 20px;
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 640px) {
+  .toolbar-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .control-group {
+    justify-content: space-around;
+  }
+  
+  .control-divider {
+    display: none;
+  }
+  
+  .view-toggle-btns span {
+    display: none; /* Icon-only toggles on narrow screens */
+  }
+  
+  .view-btn {
+    padding: 6px 10px;
+  }
+  
+  .single-card-wrapper .id-card {
+    transform: scale(0.9);
+  }
+}
+
+/* ==========================================================================
+   PRINT SPECIFIC MEDIA STYLES (@media print)
+   This overrides all screen decorations to guarantee landscape print output.
+   ========================================================================== */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  
+  .app-container, .app-header, .sidebar-panel, .stage-tabs, .helper-navigation, .page-number-banner {
+    display: none !important;
+  }
+  
+  .workspace-main, .stage-panel, .stage-body, .print-sheet-view-mode, .print-sheet-scale-wrapper, .print-sheet-pages-container {
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+    background: none !important;
+  }
+  
+  .a4-landscape-page {
+    box-shadow: none !important;
+    margin: 0 !important;
+    border: none !important;
+    page-break-after: always !important;
+    width: 297mm !important;
+    height: 210mm !important;
+  }
+  
+  .id-cards-grid {
+    top: 19mm !important;
+    left: 13.5mm !important;
+    background-color: transparent !important;
+  }
+  
+  .id-card {
+    border: 0.15mm solid rgba(0, 0, 0, 0.15) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
