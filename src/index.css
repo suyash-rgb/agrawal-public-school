@@ -940,40 +940,26 @@ input, button, textarea {
   box-sizing: border-box;
 }
 
-/* Top corner curved stripe ornaments */
 .card-decor-top-left-blue {
   position: absolute;
-  top: -16mm;
-  left: -16mm;
-  width: 32mm;
-  height: 32mm;
-  background-color: var(--card-school-blue);
-  border-radius: 50%;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-top: 5mm solid var(--card-school-blue);
+  border-right: 5mm solid transparent;
   z-index: 1;
 }
 
 .card-decor-top-left-red {
   position: absolute;
-  top: -15.2mm;
-  left: -15.2mm;
-  width: 32mm;
-  height: 32mm;
+  top: 2.5mm;
+  left: -1.75mm;
+  width: 10mm;
+  height: 1.5mm;
   background-color: var(--card-school-red);
-  border-radius: 50%;
-  z-index: 2;
-}
-
-/* Cut back the red curve on the bottom side so only a thin red band is visible */
-.card-decor-top-left-red::after {
-  content: '';
-  position: absolute;
-  top: 0.8mm;
-  left: 0.8mm;
-  width: 32mm;
-  height: 32mm;
-  background-color: var(--card-bg-white);
-  border-radius: 50%;
-  z-index: 3;
+  transform: rotate(-45deg);
+  z-index: 1;
 }
 
 /* Header layout (contains school logo and title texts) */
@@ -987,8 +973,8 @@ input, button, textarea {
 }
 
 .logo-box {
-  width: 12.5mm;
-  height: 12.5mm;
+  width: 16.5mm;
+  height: 16.5mm;
   z-index: 6;
   flex-shrink: 0;
   display: flex;
@@ -1066,22 +1052,25 @@ input, button, textarea {
 
 /* Student Photo frame layout */
 .student-photo-block {
-  height: 25mm;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5;
-  box-sizing: border-box;
+  margin-top: 1mm;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
 }
 
 .photo-frame-inner {
-  width: 19.5mm;
-  height: 24.5mm;
+  width: 21mm;
+  height: 25mm;
   border: 0.6mm solid var(--card-school-blue);
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.15);
-  background-color: #f8fafc;
+  box-sizing: border-box;
   overflow: hidden;
   position: relative;
+  background-color: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1118,55 +1107,69 @@ input, button, textarea {
 
 /* Student Name Banner Ribbon */
 .student-name-ribbon {
-  height: 4.8mm;
-  background-color: var(--card-school-blue);
+  height: 6.5mm;
   position: relative;
-  z-index: 5;
+  margin: 0.5mm 1.5mm 1.0mm 1.5mm;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  margin: 0.5mm 1.5mm 0.8mm 1.5mm;
-  border-radius: 0.3mm;
+  flex-shrink: 0;
+}
+
+.name-plate-bg {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 5.0mm; right: 5.0mm;
+  background-color: var(--card-school-blue);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 1.5mm) 100%, 1.5mm 100%);
+  z-index: 1;
+}
+
+.accent-blue-left {
+  position: absolute; left: 0; width: 2.5mm; top: 0; bottom: 0;
+  background-color: var(--card-school-blue);
+  clip-path: polygon(0 0, calc(100% - 1.5mm) 0, 100% 100%, 1.5mm 100%);
+  z-index: 1;
+}
+.accent-red-left {
+  position: absolute; left: 2.0mm; width: 3.5mm; top: 0; bottom: 0;
+  background-color: var(--card-school-red);
+  clip-path: polygon(0 0, calc(100% - 1.5mm) 0, 100% 100%, 1.5mm 100%);
+  z-index: 1;
+}
+.accent-blue-right {
+  position: absolute; right: 0; width: 2.5mm; top: 0; bottom: 0;
+  background-color: var(--card-school-blue);
+  clip-path: polygon(1.5mm 0, 100% 0, calc(100% - 1.5mm) 100%, 0 100%);
+  z-index: 1;
+}
+.accent-red-right {
+  position: absolute; right: 2.0mm; width: 3.5mm; top: 0; bottom: 0;
+  background-color: var(--card-school-red);
+  clip-path: polygon(1.5mm 0, 100% 0, calc(100% - 1.5mm) 100%, 0 100%);
+  z-index: 1;
 }
 
 .student-name-display {
   color: #ffffff;
   font-family: 'Outfit', sans-serif;
   font-weight: 800;
-  font-size: 2.85mm;
+  font-size: 3.2mm;
   text-align: center;
-  width: 90%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  letter-spacing: 0.1mm;
-}
-
-/* Diagonal stripes on ribbon ends */
-.diagonal-accent {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 1.6mm;
-  z-index: 6;
-  background: repeating-linear-gradient(
-    -45deg,
-    var(--card-school-red),
-    var(--card-school-red) 0.35mm,
-    #ffffff 0.35mm,
-    #ffffff 0.7mm,
-    var(--card-school-blue) 0.7mm,
-    var(--card-school-blue) 1.05mm
-  );
-}
-
-.left-accent {
-  left: 0.5mm;
-}
-
-.right-accent {
-  right: 0.5mm;
+  left: 5.0mm;
+  right: 5.0mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1mm;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 2;
+  box-sizing: border-box;
 }
 
 /* Details Box Container */
@@ -1248,38 +1251,17 @@ input, button, textarea {
 
 /* Card Footer (Static school contact numbers) */
 .card-footer-sec {
-  height: 6mm;
-  background-color: var(--card-school-blue);
+  height: 12.5mm;
   position: relative;
-  z-index: 5;
+  margin-top: auto;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 160" preserveAspectRatio="none"><path d="M-10,25 Q270,110 550,90 L550,170 L-10,170 Z" fill="%23d11227" /><path d="M-10,45 Q270,125 550,60 L550,100 Q270,170 -10,170 Z" fill="%230b3268" /></svg>');
+  background-size: 100% 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* Top curved border decoration inside footer */
-.footer-bottom-accent-red {
-  position: absolute;
-  top: -1.2mm;
-  left: 0;
-  width: 100%;
-  height: 1.8mm;
-  background-color: var(--card-school-red);
-  border-radius: 50% / 100% 100% 0 0;
-  z-index: 1;
-}
-
-.footer-bottom-accent-blue {
-  position: absolute;
-  top: -0.6mm;
-  left: 0;
-  width: 100%;
-  height: 1.8mm;
-  background-color: var(--card-school-blue);
-  border-radius: 50% / 100% 100% 0 0;
-  z-index: 2;
+  padding-bottom: 2.2mm;
+  z-index: 5;
+  flex-shrink: 0;
 }
 
 .footer-contact-details {

@@ -81,8 +81,11 @@ export default function IDCard({ student, isThumbnail = false, onPhotoClick }) {
         </div>
         
         <div className="student-name-ribbon">
-          <div className="diagonal-accent left-accent"></div>
-          <div className="diagonal-accent right-accent"></div>
+          <div className="name-plate-bg"></div>
+          <div className="accent-blue-left"></div>
+          <div className="accent-red-left"></div>
+          <div className="accent-blue-right"></div>
+          <div className="accent-red-right"></div>
           <div className="student-name-display">{student.name ? student.name.toUpperCase() : 'STUDENT NAME'}</div>
         </div>
         
@@ -121,8 +124,6 @@ export default function IDCard({ student, isThumbnail = false, onPhotoClick }) {
         </div>
         
         <div className="card-footer-sec">
-          <div className="footer-bottom-accent-red"></div>
-          <div className="footer-bottom-accent-blue"></div>
           <div className="footer-contact-details">
             <i className="fa-solid fa-phone-flip"></i>
             <span>CONTACT: 9425334818, 9826032643</span>
