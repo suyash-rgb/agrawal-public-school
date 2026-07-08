@@ -3,7 +3,7 @@ import IDCard from './IDCard';
 import PrintSheet from './PrintSheet';
 import PhotoModal from './PhotoModal';
 
-export default function Stage({ students, activeStudentId, viewMode, setViewMode, sheetZoom, setSheetZoom, printSheetRef, setActiveStudentId, updateStudent, selectedIds }) {
+export default function Stage({ students, activeStudentId, viewMode, setViewMode, sheetZoom, setSheetZoom, cardPreviewZoom, setCardPreviewZoom, printSheetRef, setActiveStudentId, updateStudent, selectedIds }) {
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const activeStudent = students.find(s => s.id === activeStudentId);
   const activeIndex = students.findIndex(s => s.id === activeStudentId);
@@ -28,13 +28,15 @@ export default function Stage({ students, activeStudentId, viewMode, setViewMode
           </button>
         </div>
         
-        {viewMode === 'print' && (
-          <div className="sheet-zoom-control">
-            <span><i className="fa-solid fa-magnifying-glass-chart"></i> Zoom:</span>
-            <input type="range" min="30" max="100" value={sheetZoom} onChange={e => setSheetZoom(parseInt(e.target.value))} />
-            <span>{sheetZoom}%</span>
-          </div>
-        )}
+        <div className="sheet-zoom-control">
+          <span><i className="fa-solid fa-magnifying-glass-chart"></i> Zoom:</span>
+          {viewMode === 'single' ? (
+            <input type="range" min="30" max="250" value={cardPreviewZoom} onChange={e => setCardPreviewZoom(parseInt(e.target.value))} />
+          ) : (
+            <input type="range" min="30" max="150" value={sheetZoom} onChange={e => setSheetZoom(parseInt(e.target.value))} />
+          )}
+          <span>{viewMode === 'single' ? cardPreviewZoom : sheetZoom}%</span>
+        </div>
       </div>
       
       <div className="stage-body">
@@ -42,7 +44,7 @@ export default function Stage({ students, activeStudentId, viewMode, setViewMode
           <div className="single-card-view-mode active">
             <div className="single-card-wrapper">
               {activeStudent ? (
-                <div style={{transform: 'scale(1.15)', transformOrigin: 'center'}}>
+                <div style={{transform: `scale(${cardPreviewZoom / 100})`, transformOrigin: 'center', transition: 'transform 0.2s'}}>
                   <IDCard 
                     student={activeStudent} 
                     onPhotoClick={() => setIsPhotoModalOpen(true)} 

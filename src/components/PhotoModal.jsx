@@ -16,14 +16,7 @@ export default function PhotoModal({ isOpen, onClose, student, onSave }) {
     }
   }, [student, isOpen]);
 
-  const handleSave = () => {
-    onSave(student.id, {
-      photoZoom: zoom,
-      photoX: shiftX,
-      photoY: shiftY
-    });
-    onClose();
-  };
+
 
   const handleReset = () => {
     setZoom(100);
@@ -34,7 +27,12 @@ export default function PhotoModal({ isOpen, onClose, student, onSave }) {
   // Convert pixels to match visual scale
   const previewStyle = {
     transform: `translate(${shiftX / 5}mm, ${shiftY / 5}mm) scale(${zoom / 100})`,
-    objectFit: 'cover'
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   };
 
   return (
@@ -53,7 +51,9 @@ export default function PhotoModal({ isOpen, onClose, student, onSave }) {
             <div className="modal-photo-frame-outer">
               <div className="modal-photo-frame-inner">
                 {student.photo ? (
-                  <img src={student.photo} alt="Preview" style={previewStyle} />
+                  <div style={previewStyle}>
+                    <img src={student.photo} alt="Preview" className="img-render-photo" />
+                  </div>
                 ) : (
                   <div className="photo-placeholder-graphic">
                     <i className="fa-solid fa-user-graduate"></i>
@@ -71,7 +71,11 @@ export default function PhotoModal({ isOpen, onClose, student, onSave }) {
                 <label><i className="fa-solid fa-magnifying-glass-plus"></i> Photo Zoom</label>
                 <span className="slider-value">{zoom}%</span>
               </div>
-              <input type="range" min="10" max="350" value={zoom} onChange={e => setZoom(parseInt(e.target.value))} />
+              <input type="range" min="10" max="350" value={zoom} onChange={e => {
+                const val = parseInt(e.target.value);
+                setZoom(val);
+                onSave(student.id, { photoZoom: val, photoX: shiftX, photoY: shiftY });
+              }} />
             </div>
 
             <div className="modal-slider-group">
@@ -79,7 +83,11 @@ export default function PhotoModal({ isOpen, onClose, student, onSave }) {
                 <label><i className="fa-solid fa-arrows-left-right"></i> Horizontal Pan (X)</label>
                 <span className="slider-value">{shiftX}px</span>
               </div>
-              <input type="range" min="-150" max="150" value={shiftX} onChange={e => setShiftX(parseInt(e.target.value))} />
+              <input type="range" min="-150" max="150" value={shiftX} onChange={e => {
+                const val = parseInt(e.target.value);
+                setShiftX(val);
+                onSave(student.id, { photoZoom: zoom, photoX: val, photoY: shiftY });
+              }} />
             </div>
 
             <div className="modal-slider-group">
@@ -87,7 +95,11 @@ export default function PhotoModal({ isOpen, onClose, student, onSave }) {
                 <label><i className="fa-solid fa-arrows-up-down"></i> Vertical Pan (Y)</label>
                 <span className="slider-value">{shiftY}px</span>
               </div>
-              <input type="range" min="-150" max="150" value={shiftY} onChange={e => setShiftY(parseInt(e.target.value))} />
+              <input type="range" min="-150" max="150" value={shiftY} onChange={e => {
+                const val = parseInt(e.target.value);
+                setShiftY(val);
+                onSave(student.id, { photoZoom: zoom, photoX: shiftX, photoY: val });
+              }} />
             </div>
           </div>
         </div>
@@ -97,10 +109,7 @@ export default function PhotoModal({ isOpen, onClose, student, onSave }) {
             <i className="fa-solid fa-rotate-left"></i> Reset
           </button>
           <div className="footer-right-btns">
-            <button className="btn btn-warning" onClick={onClose}>Cancel</button>
-            <button className="btn btn-success" onClick={handleSave} disabled={!student.photo}>
-              <i className="fa-solid fa-check"></i> Save Changes
-            </button>
+            <button className="btn btn-primary" onClick={onClose}>Close</button>
           </div>
         </div>
       </div>

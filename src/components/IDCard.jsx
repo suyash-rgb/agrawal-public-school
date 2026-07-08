@@ -4,10 +4,15 @@ export default function IDCard({ student, isThumbnail = false, onPhotoClick }) {
   if (!student) return null;
 
   const photoTransform = isThumbnail
-    ? { transform: 'none', objectFit: 'cover' }
+    ? { width: '100%', height: '100%', position: 'absolute' }
     : {
         transform: `translate(${(student.photoX || 0) / 5}mm, ${(student.photoY || 0) / 5}mm) scale(${(student.photoZoom || 100) / 100})`,
-        objectFit: 'cover'
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
       };
 
   return (
@@ -38,7 +43,27 @@ export default function IDCard({ student, isThumbnail = false, onPhotoClick }) {
           <div className="photo-frame-inner">
             {student.photo ? (
               <>
-                <img src={student.photo} alt="Student" className="img-render-photo" style={photoTransform} />
+                <div style={photoTransform}>
+                  <img 
+                    src={student.photo} 
+                    alt="Student" 
+                    style={{ flexShrink: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                    onLoad={(e) => {
+                      const img = e.target;
+                      if (!img.naturalWidth) return;
+                      const imgAspect = img.naturalWidth / img.naturalHeight;
+                      const containerAspect = 19.5 / 24.5;
+                      if (imgAspect > containerAspect) {
+                        img.style.height = '100%';
+                        img.style.width = `${(imgAspect / containerAspect) * 100}%`;
+                      } else {
+                        img.style.width = '100%';
+                        img.style.height = `${(containerAspect / imgAspect) * 100}%`;
+                      }
+                      img.style.objectFit = 'fill';
+                    }}
+                  />
+                </div>
                 {onPhotoClick && (
                   <div className="photo-edit-overlay">
                     <i className="fa-solid fa-arrows-up-down-left-right"></i>

@@ -129,6 +129,7 @@ function App() {
   const [viewMode, setViewMode] = useState('single');
   const [theme, setTheme] = useState('light');
   const [sheetZoom, setSheetZoom] = useState(70);
+  const [cardPreviewZoom, setCardPreviewZoom] = useState(115);
   
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
@@ -430,6 +431,8 @@ function App() {
           setViewMode={setViewMode}
           sheetZoom={sheetZoom}
           setSheetZoom={setSheetZoom}
+          cardPreviewZoom={cardPreviewZoom}
+          setCardPreviewZoom={setCardPreviewZoom}
           printSheetRef={printSheetRef}
           updateStudent={updateStudent}
         />
