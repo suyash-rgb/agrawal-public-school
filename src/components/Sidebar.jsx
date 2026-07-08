@@ -169,13 +169,13 @@ export default function Sidebar({ students, activeStudentId, setActiveStudentId,
               <div className="form-group">
                 <label>Student Photo</label>
                 {!activeStudent.photo ? (
-                  <div className="photo-upload-zone" onClick={() => document.getElementById('photo-input').click()}>
+                  <label htmlFor="photo-input" className="photo-upload-zone">
                     <input type="file" id="photo-input" accept="image/*" className="file-hidden" onChange={handlePhotoUpload} />
                     <div className="upload-icon-container"><i className="fa-solid fa-camera"></i></div>
                     <div className="upload-text">
                       <span className="upload-primary">Click to upload photo</span>
                     </div>
-                  </div>
+                  </label>
                 ) : (
                   <div className="photo-adjustments-panel">
                     <div className="photo-preview-thumbnail">
