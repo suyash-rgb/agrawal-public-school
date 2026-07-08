@@ -3,7 +3,7 @@ import IDCard from './IDCard';
 import PrintSheet from './PrintSheet';
 import PhotoModal from './PhotoModal';
 
-export default function Stage({ students, activeStudentId, viewMode, setViewMode, sheetZoom, setSheetZoom, printSheetRef, setActiveStudentId, updateStudent }) {
+export default function Stage({ students, activeStudentId, viewMode, setViewMode, sheetZoom, setSheetZoom, printSheetRef, setActiveStudentId, updateStudent, selectedIds }) {
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const activeStudent = students.find(s => s.id === activeStudentId);
   const activeIndex = students.findIndex(s => s.id === activeStudentId);
